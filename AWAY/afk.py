@@ -99,9 +99,9 @@ def reply_afk(update: Update, context: CallbackContext):
 
             if ent.type != MessageEntity.MENTION:
                 return
+            chk_users.append(user_id)
             if user_id in chk_users:
                 return
-            chk_users.append(user_id)
             try:
                 chat = bot.get_chat(user_id)
             except BadRequest:
