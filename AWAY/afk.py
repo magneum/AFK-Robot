@@ -14,12 +14,18 @@ AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
 
 
+
 def afk(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(None, 1)
     user = update.effective_user
     chat = update.effective_chat
-    if not user: 
+
+    if not user:  # ignore channels
         return
+
+    if user.id in [777000, 1087968824]:
+        return
+
     notice = ""
     if len(args) >= 2:
         reason = args[1]
@@ -34,9 +40,12 @@ def afk(update: Update, context: CallbackContext):
     try:
         delmsg = update.effective_message.reply_text(
             "{} is now away!{}".format(fname, notice))
+
         cleartime = get_clearcmd(chat.id, "afk")
+
         if cleartime:
             context.dispatcher.run_async(delete, delmsg, cleartime.time)
+
     except BadRequest:
         pass
 
@@ -45,11 +54,13 @@ def no_longer_afk(update: Update, context: CallbackContext):
     user = update.effective_user
     message = update.effective_message
     chat = update.effective_chat
-    if not user:  
+
+    if not user:  # ignore channels
         return
+
     res = sql.rm_afk(user.id)
     if res:
-        if message.new_chat_members: 
+        if message.new_chat_members:  # dont say msg
             return
         firstname = update.effective_user.first_name
         try:
@@ -71,6 +82,7 @@ def no_longer_afk(update: Update, context: CallbackContext):
 
             if cleartime:
                 context.dispatcher.run_async(delete, delmsg, cleartime.time)
+
         except:
             return
 
@@ -99,37 +111,54 @@ def reply_afk(update: Update, context: CallbackContext):
 
             if ent.type != MessageEntity.MENTION:
                 return
-            chk_users.append(user_id)
+
+            user_id = get_user_id(
+                message.text[ent.offset: ent.offset + ent.length])
+            if not user_id:
+                # Should never happen, since for a user to become AFK they must have spoken. Maybe changed username?
+                return
+
             if user_id in chk_users:
                 return
+            chk_users.append(user_id)
+
             try:
                 chat = bot.get_chat(user_id)
             except BadRequest:
                 print("Error: Could not fetch userid {} for AFK module".format(user_id))
                 return
             fst_name = chat.first_name
+
             check_afk(update, context, user_id, fst_name, userc_id)
+
     elif message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
         fst_name = message.reply_to_message.from_user.first_name
         check_afk(update, context, user_id, fst_name, userc_id)
 
+
 def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: str, userc_id: int):
     chat = update.effective_chat
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
+
         if int(userc_id) == int(user_id):
             return
+
         time = humanize.naturaldelta(datetime.now() - user.time)
+
         if not user.reason:
             res = f"{fst_name} is *afk*.\nLast seen: `{time} ago`"
         else:
             res = f"{fst_name} is *afk*.\nReason: `{user.reason}`\nLast seen: `{time} ago`"
+
         delmsg = update.effective_message.reply_text(
         res,
         parse_mode = ParseMode.MARKDOWN,
         )
+
         cleartime = get_clearcmd(chat.id, "afk")
+
         if cleartime:
             context.dispatcher.run_async(delete, delmsg, cleartime.time)
 
@@ -137,11 +166,14 @@ def __gdpr__(user_id):
     sql.rm_afk(user_id)
 
 
-AFK_HANDLER = CommandHandler("afk", afk, run_async=True)
+AFK_HANDLER = DisableAbleCommandHandler("afk", afk, run_async=True)
+AFK_REGEX_HANDLER = DisableAbleMessageHandler(
+    Filters.regex(r"^(?i)brb(.*)$"), afk)
 NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.chat_type.groups, no_longer_afk, run_async=True)
 AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.chat_type.groups, reply_afk, run_async=True)
 
 dispatcher.add_handler(AFK_HANDLER, AFK_GROUP)
+dispatcher.add_handler(AFK_REGEX_HANDLER, AFK_GROUP)
 dispatcher.add_handler(NO_AFK_HANDLER, AFK_GROUP)
 dispatcher.add_handler(AFK_REPLY_HANDLER, AFK_REPLY_GROUP)
 
@@ -149,6 +181,7 @@ __mod_name__ = "AFK"
 __command_list__ = ["afk"]
 __handlers__ = [
     (AFK_HANDLER, AFK_GROUP),
+    (AFK_REGEX_HANDLER, AFK_GROUP),
     (NO_AFK_HANDLER, AFK_GROUP),
     (AFK_REPLY_HANDLER, AFK_REPLY_GROUP),
 ]
