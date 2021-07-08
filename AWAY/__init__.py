@@ -1,5 +1,5 @@
 from HYPE_AFK_BOT import LOAD, LOGGER, NO_LOAD
-
+from termcolor import colored, cprint
 
 def __list_all_modules():
     import glob
@@ -37,5 +37,8 @@ def __list_all_modules():
 
 
 ALL_MODULES = __list_all_modules()
+cprint(f"               —🚸••÷[ Hყρҽ Aϝƙ Bσƚ ]÷••🚸—", 'yellow')
+cprint(f"                      —🖥 Dҽʋ Mҽɳƚισɳ: ", 'red')
+cprint(f"                   @hypevoidsoul | @hypevoidbot", 'green')
 LOGGER.info("Modules to load: %s", str(ALL_MODULES))
 __all__ = ALL_MODULES + ["ALL_MODULES"]
