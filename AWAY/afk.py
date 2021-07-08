@@ -104,25 +104,20 @@ def reply_afk(update: Update, context: CallbackContext):
             if ent.type == MessageEntity.TEXT_MENTION:
                 user_id = ent.user.id
                 fst_name = ent.user.first_name
-
+                chk_users.append(user_id)
                 if user_id in chk_users:
                     return
-                chk_users.append(user_id)
-
             if ent.type != MessageEntity.MENTION:
                 return
-
+            chk_users.append(user_id)
             if user_id in chk_users:
                 return
-            chk_users.append(user_id)
-
             try:
                 chat = bot.get_chat(user_id)
             except BadRequest:
                 print("Error: Could not fetch userid {} for AFK module".format(user_id))
                 return
             fst_name = chat.first_name
-
             check_afk(update, context, user_id, fst_name, userc_id)
 
     elif message.reply_to_message:
