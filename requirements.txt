@@ -19,6 +19,7 @@ ujson
 bs4
 hachoir
 pybase64
+termcolor
 pySmartDL
 validators
 tswift
