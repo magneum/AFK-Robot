@@ -71,7 +71,7 @@ def main():
 
     
     
-    LOGGER.info("READY")
+LOGGER.info("READY")
 cprint(f"               —••÷[ Hყρҽ Aϝƙ Bσƚ ]÷••—    online", 'yellow')
 updater.start_polling(timeout=15, read_latency=4, drop_pending_updates=True)
 main()
