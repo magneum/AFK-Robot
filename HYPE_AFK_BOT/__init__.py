@@ -4,8 +4,6 @@ import sys
 import time
 import telegram.ext as tg
 from telethon import TelegramClient
-
-
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
@@ -14,9 +12,8 @@ logging.basicConfig(
 
 LOGGER = logging.getLogger(__name__)
 
-
 ENV = bool(os.environ.get("ENV", False))
-from HYPE_AFK_BOT.config import PIPER as Config
+from KONF import *
 BOT_TOKEN = Config.BOT_TOKEN
 API_ID = Config.API_ID
 API_HASH = Config.API_HASH
