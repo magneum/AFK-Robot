@@ -19,11 +19,6 @@ ENV = bool(os.environ.get("ENV", False))
 
 if ENV:
     TOKEN = os.environ.get("TOKEN", None)
-    try:
-        OWNER_ID = int(os.environ.get("OWNER_ID", None))
-    except ValueError:
-        raise Exception("Your OWNER_ID env variable is not a valid integer.")
-    OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
     API_ID = os.environ.get("API_ID", None)
     API_HASH = os.environ.get("API_HASH", None)
     DB_URI = os.environ.get("DATABASE_URL")
@@ -34,11 +29,6 @@ if ENV:
 else:
     from HYPE_AFK_BOT.config import Development as Config
     TOKEN = Config.TOKEN
-    try:
-        OWNER_ID = int(Config.OWNER_ID)
-    except ValueError:
-        raise Exception("Your OWNER_ID variable is not a valid integer.")
-    OWNER_USERNAME = Config.OWNER_USERNAME
     API_ID = Config.API_ID
     API_HASH = Config.API_HASH
     DB_URI = Config.SQLALCHEMY_DATABASE_URI

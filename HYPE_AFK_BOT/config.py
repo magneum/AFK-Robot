@@ -6,8 +6,6 @@ class Config(object):
     API_ID =  637
     API_HASH = "4b7731b0"
     TOKEN = "1825575975:AAESpVD"  
-    OWNER_ID = 1836310130  
-    OWNER_USERNAME = "@hypevoidsoul"
     SSQLALCHEMY_DATABASE_URI = "postgresql:/"
     LOAD = []
     NO_LOAD = []
