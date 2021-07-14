@@ -17,7 +17,7 @@ true},
 "Your BotFather Token.",
 "required": 
 true},
-"DATABASE_URL":{
+"SQLALCHEMY_DATABASE_URI":{
 "description":
 "Add the database url",
 "required":

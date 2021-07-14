@@ -3,13 +3,12 @@ import os
 
 class Config(object):
     LOGGER = True
-    API_ID =  637
-    API_HASH = "4b7731b0"
-    TOKEN = "1825575975:AAESpVD"  
-    SSQLALCHEMY_DATABASE_URI = "postgresql:/"
     LOAD = []
     NO_LOAD = []
     WORKERS = 8
-
+    TOKEN = os.environ.get("TOKEN", None)
+    API_ID = os.environ.get("API_ID", None)
+    API_HASH = os.environ.get("API_HASH", None)
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 class Development(Config):
     LOGGER = True

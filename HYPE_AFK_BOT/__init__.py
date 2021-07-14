@@ -16,17 +16,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 ENV = bool(os.environ.get("ENV", False))
-
 if ENV:
-    TOKEN = os.environ.get("TOKEN", None)
-    API_ID = os.environ.get("API_ID", None)
-    API_HASH = os.environ.get("API_HASH", None)
-    DB_URI = os.environ.get("DATABASE_URL")
-    LOAD = os.environ.get("LOAD", "").split()
-    NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
-    WORKERS = int(os.environ.get("WORKERS", 8))
-
-else:
     from HYPE_AFK_BOT.config import Development as Config
     TOKEN = Config.TOKEN
     API_ID = Config.API_ID
@@ -35,6 +25,7 @@ else:
     LOAD = Config.LOAD
     NO_LOAD = Config.NO_LOAD
     WORKERS = Config.WORKERS
-
+else:
+    sys.exit
 updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 dispatcher = updater.dispatcher
