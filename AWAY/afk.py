@@ -1,3 +1,14 @@
+"""
+•=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=•
+                                                       GNU GENERAL PUBLIC LICENSE 
+                                                         Version 3, 29 June 2007
+                                                Copyright (C) 2007 Free Software Foundation
+                                            Everyone is permitted to 𝗰𝗼𝗽𝘆 𝗮𝗻𝗱 𝗱𝗶𝘀𝘁𝗿𝗶𝗯𝘂𝘁𝗲 verbatim copies
+                                                of this license document, 𝗯𝘂𝘁 𝗰𝗵𝗮𝗻𝗴𝗶𝗻𝗴 𝗶𝘁 𝗶𝘀 𝗻𝗼𝘁 𝗮𝗹𝗹𝗼𝘄𝗲𝗱.
+                                                has been licensed under GNU General Public License
+                                                𝐂𝐨𝐩𝐲𝐫𝐢𝐠𝐡𝐭 (𝐂) 𝟐𝟎𝟐𝟏 𝗞𝗿𝗮𝗸𝗶𝗻𝘇 | 𝗞𝗿𝗮𝗸𝗶𝗻𝘇𝗟𝗮𝗯 | 𝗞𝗿𝗮𝗸𝗶𝗻𝘇𝗕𝗼𝘁
+•=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=•
+"""
 import random
 import html
 from datetime import datetime
@@ -12,7 +23,6 @@ from telegram.error import BadRequest
 
 AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
-
 
 
 def afk(update: Update, context: CallbackContext):
@@ -142,14 +152,15 @@ def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: 
             res = f"{fst_name} is *afk*.\nReason: `{user.reason}`\nLast seen: `{time} ago`"
 
         delmsg = update.effective_message.reply_text(
-        res,
-        parse_mode = ParseMode.MARKDOWN,
+            res,
+            parse_mode=ParseMode.MARKDOWN,
         )
 
         cleartime = get_clearcmd(chat.id, "afk")
 
         if cleartime:
             context.dispatcher.run_async(delete, delmsg, cleartime.time)
+
 
 def __gdpr__(user_id):
     sql.rm_afk(user_id)
@@ -158,8 +169,10 @@ def __gdpr__(user_id):
 AFK_HANDLER = CommandHandler("afk", afk, run_async=True)
 AFK_REGEX_HANDLER = MessageHandler(
     Filters.regex(r"^(?i)brb(.*)$"), afk)
-NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.chat_type.groups, no_longer_afk, run_async=True)
-AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.chat_type.groups, reply_afk, run_async=True)
+NO_AFK_HANDLER = MessageHandler(
+    Filters.all & Filters.chat_type.groups, no_longer_afk, run_async=True)
+AFK_REPLY_HANDLER = MessageHandler(
+    Filters.all & Filters.chat_type.groups, reply_afk, run_async=True)
 
 dispatcher.add_handler(AFK_HANDLER, AFK_GROUP)
 dispatcher.add_handler(AFK_REGEX_HANDLER, AFK_GROUP)
