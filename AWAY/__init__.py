@@ -39,6 +39,6 @@ def __list_all_modules():
 ALL_MODULES = __list_all_modules()
 cprint(f"               —🚸••÷[ Hყρҽ Aϝƙ Bσƚ ]÷••🚸—", 'yellow')
 cprint(f"                      —🖥 Dҽʋ Mҽɳƚισɳ: ", 'red')
-cprint(f"                   @hypevoidsoul | @hypevoidbot", 'green')
+cprint(f"                   @Krakinz | @KrakinzBot", 'green')
 LOGGER.info("Modules to load: %s", str(ALL_MODULES))
 __all__ = ALL_MODULES + ["ALL_MODULES"]

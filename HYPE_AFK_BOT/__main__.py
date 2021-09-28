@@ -21,7 +21,7 @@ AFKSAY = """—🚸••÷[Hყρҽ Aϝƙ Bσƚ]÷••🚸—
 ᴊᴜꜱᴛ ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴀɴᴅ ᴛʏᴘᴇ /afk ᴀɴᴅ ʀᴇꜱᴛ ɪꜱ ᴍʏ ᴡᴏʀᴋ.
 
 
-🖥 Dҽʋ Mҽɳƚισɳ: @hypevoidsoul | @hypevoidbot
+🖥 Dҽʋ Mҽɳƚισɳ: @Krakinz | @KrakinzBot
 —🚸••÷[ Hყρҽ Aϝƙ Bσƚ ]÷••🚸—
 """
 HYPE_AFK_BOT_IMG = "https://telegra.ph/file/8e5be7f7bd1f93ef370b1.jpg"
@@ -58,7 +58,7 @@ def start(update: Update, context: CallbackContext):
             reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(
             text="••÷   🆅🅸🆂🅸🆃 ☆🍫 ÷••",
-            url="https://t.me/hypevoidbot")],]),)
+            url="https://t.me/KrakinzBot")],]),)
         
 
 
@@ -78,5 +78,5 @@ main()
 updater.idle()
 cprint(f"—••÷[ Hყρҽ Aϝƙ Bσƚ ]÷••—    offline", 'white', 'on_red')
 cprint(f"—🖥 Dҽʋ Mҽɳƚισɳ: ", 'red')
-cprint(f"@hypevoidsoul | @hypevoidbot", 'green')
+cprint(f"@Krakinz | @KrakinzBot", 'green')
 updater.stop()
